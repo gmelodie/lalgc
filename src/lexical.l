@@ -15,6 +15,7 @@ COMMA ","
 MATH_SUM (\+|\-)
 MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
+ATRIBUTION :=
 
 INT [0-9]+
 FLOAT [0-9]+"."[0-9]+
@@ -69,6 +70,8 @@ SPACES [ \n]+
 {CMD} { printf("%s - cmd\n", yytext);}
 
 {IDENT} { printf("%s - id\n", yytext);}
+
+{ATRIBUTION} { printf("%s - simb_attribution\n", yytext);}
 
 {SPACES} {}
 
