@@ -1,3 +1,3 @@
-src/test.txt
+src/*.txt
 src/lex.yy.c
 src/lexical
