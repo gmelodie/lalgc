@@ -29,7 +29,7 @@ CMD (FUNC|LOOP|COND)
 IDENT [a-zA-Z][a-zA-Z0-9]*
 
 
-SPACES [ \n]+ 
+SPACES [ \n\t]+ 
 
 
 
