@@ -1,10 +1,9 @@
 %{
-	#include <iostream>
-	#include <fstream>
-	#include <FlexLexer.h>
-	#include "parser.tab.h"
+#include <iostream>
+#include <fstream>
+#include <FlexLexer.h>
 
-	using namespace std;
+using namespace std;
 %}
 
 PROGRAM program
@@ -90,14 +89,20 @@ SPACES [ \n]+
 
 
 
-/*** Code Section***/
+/*** Code Section
 
+***/
+
+int yywrap(){return(1);}
+
+int main() {
+    cout << "Testing C++ stuff" << endl;
+    yylex();
+    return 0;
+}
 
 /*
-int yywrap(){return(1);}
-int main() {
     printf("Testing");
-    yylex();
     cout << "Testing C++ stuff" << endl;
     return 0;
 

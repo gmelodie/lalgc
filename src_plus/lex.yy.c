@@ -162,27 +162,8 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
-     *       access to the local variable yy_act. Since yyless() is a macro, it would break
-     *       existing scanners that call yyless() from OUTSIDE yylex.
-     *       One obvious solution it to make yy_act a global. I tried that, and saw
-     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
-     *       normally declared as a register variable-- so it is not worth it.
-     */
-    #define  YY_LESS_LINENO(n) \
-            do { \
-                int yyl;\
-                for ( yyl = n; yyl < yyleng; ++yyl )\
-                    if ( yytext[yyl] == '\n' )\
-                        --yylineno;\
-            }while(0)
-    #define YY_LINENO_REWIND_TO(dst) \
-            do {\
-                const char *p;\
-                for ( p = yy_cp-1; p >= (dst); --p)\
-                    if ( *p == '\n' )\
-                        --yylineno;\
-            }while(0)
+    #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -347,11 +328,14 @@ FILE *yyin = NULL, *yyout = NULL;
 
 typedef int yy_state_type;
 
-#define YY_FLEX_LEX_COMPAT
 extern int yylineno;
 int yylineno = 1;
 
-extern char yytext[];
+extern char *yytext;
+#ifdef yytext_ptr
+#undef yytext_ptr
+#endif
+#define yytext_ptr yytext
 
 static yy_state_type yy_get_previous_state ( void );
 static yy_state_type yy_try_NUL_trans ( yy_state_type current_state  );
@@ -366,9 +350,6 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	yyleng = (int) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
-	if ( yyleng >= YYLMAX ) \
-		YY_FATAL_ERROR( "token too large, exceeds YYLMAX" ); \
-	yy_flex_strncpy( yytext, (yytext_ptr), yyleng + 1 ); \
 	(yy_c_buf_p) = yy_cp;
 #define YY_NUM_RULES 27
 #define YY_END_OF_BUFFER 28
@@ -503,12 +484,6 @@ static const flex_int16_t yy_chk[165] =
        89,   89,   89,   89
     } ;
 
-/* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[28] =
-    {   0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 1, 0,     };
-
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -522,23 +497,17 @@ int yy_flex_debug = 0;
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#ifndef YYLMAX
-#define YYLMAX 8192
-#endif
-
-char yytext[YYLMAX];
-char *yytext_ptr;
+char *yytext;
 #line 1 "lexical.l"
 #line 2 "lexical.l"
-	#include <iostream>
-	#include <fstream>
-	#include <FlexLexer.h>
-	#include "parser.tab.h"
+#include <iostream>
+#include <fstream>
+#include <FlexLexer.h>
 
-	using namespace std;
-#line 540 "lex.yy.c"
+using namespace std;
+#line 509 "lex.yy.c"
 /*** Rule Section***/
-#line 542 "lex.yy.c"
+#line 511 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -755,10 +724,10 @@ YY_DECL
 		}
 
 	{
-#line 50 "lexical.l"
+#line 49 "lexical.l"
 
 
-#line 762 "lex.yy.c"
+#line 731 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -804,16 +773,6 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
-		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
-			{
-			int yyl;
-			for ( yyl = 0; yyl < yyleng; ++yyl )
-				if ( yytext[yyl] == '\n' )
-					
-    yylineno++;
-;
-			}
-
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -827,141 +786,141 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 52 "lexical.l"
+#line 51 "lexical.l"
 { printf("%s - program\n", yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 52 "lexical.l"
 { printf("%s - procedure\n", yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 54 "lexical.l"
+#line 53 "lexical.l"
 { printf("%s - var\n", yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 55 "lexical.l"
+#line 54 "lexical.l"
 { printf("%s - begin\n", yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 55 "lexical.l"
 { printf("%s - end\n", yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 57 "lexical.l"
+#line 56 "lexical.l"
 { printf("%s - const\n", yytext);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 59 "lexical.l"
+#line 58 "lexical.l"
 { printf("%s - symb_colon\n", yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 60 "lexical.l"
+#line 59 "lexical.l"
 { printf("%s - symb_semi_colon\n", yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 60 "lexical.l"
 { printf("%s - symb_open_brackets\n", yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 62 "lexical.l"
+#line 61 "lexical.l"
 { printf("%s - symb_close_brackets\n", yytext);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 63 "lexical.l"
+#line 62 "lexical.l"
 { printf("%s - symb_open_paren\n", yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 64 "lexical.l"
+#line 63 "lexical.l"
 { printf("%s - symb_close_paren\n", yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 66 "lexical.l"
+#line 65 "lexical.l"
 { printf("%s - symb_dot\n", yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 67 "lexical.l"
+#line 66 "lexical.l"
 { printf("%s - symb_comma\n", yytext);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 69 "lexical.l"
+#line 68 "lexical.l"
 { printf("%s - symb_plus\n", yytext);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 70 "lexical.l"
+#line 69 "lexical.l"
 { printf("%s - symb_mult\n", yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 71 "lexical.l"
+#line 70 "lexical.l"
 { printf("%s - symb_comp\n", yytext);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 72 "lexical.l"
 { printf("%s - integer\n", yytext);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 74 "lexical.l"
+#line 73 "lexical.l"
 { printf("%s - real\n", yytext);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 76 "lexical.l"
+#line 75 "lexical.l"
 { printf("%s - reserved_function\n", yytext);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 76 "lexical.l"
 { printf("%s - reserved_loop\n", yytext);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 78 "lexical.l"
+#line 77 "lexical.l"
 { printf("%s - reserved_conditional\n", yytext);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 79 "lexical.l"
+#line 78 "lexical.l"
 { printf("%s - cmd\n", yytext);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 81 "lexical.l"
+#line 80 "lexical.l"
 { printf("%s - id\n", yytext);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 83 "lexical.l"
+#line 82 "lexical.l"
 { printf("%s - simb_attribution\n", yytext);}
 	YY_BREAK
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 85 "lexical.l"
+#line 84 "lexical.l"
 {}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 87 "lexical.l"
+#line 86 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 965 "lex.yy.c"
+#line 924 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1329,10 +1288,6 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
-    if ( c == '\n' ){
-        --yylineno;
-    }
-
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1409,11 +1364,6 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
-
-	if ( c == '\n' )
-		
-    yylineno++;
-;
 
 	return c;
 }
@@ -1881,9 +1831,6 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
-    /* We do not touch yylineno unless the option is enabled. */
-    yylineno =  1;
-    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -1978,21 +1925,27 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 87 "lexical.l"
+#line 86 "lexical.l"
 
 
 
 
 
 
-/*** Code Section***/
+/*** Code Section
 
+***/
+
+int yywrap(){return(1);}
+
+int main() {
+    cout << "Testing C++ stuff" << endl;
+    yylex();
+    return 0;
+}
 
 /*
-int yywrap(){return(1);}
-int main() {
     printf("Testing");
-    yylex();
     cout << "Testing C++ stuff" << endl;
     return 0;
 
