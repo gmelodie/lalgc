@@ -1,3 +1,11 @@
+%{
+#include <iostream>
+#include <fstream>
+#include <FlexLexer.h>
+
+using namespace std;
+%}
+
 PROGRAM program
 PROCEDURE procedure
 VAR var
@@ -29,7 +37,7 @@ CMD (FUNC|LOOP|COND)
 IDENT [a-zA-Z][a-zA-Z0-9]*
 
 
-SPACES [ \n\t]+ 
+SPACES [ \n]+ 
 
 
 
@@ -81,11 +89,23 @@ SPACES [ \n\t]+
 
 
 
+/*** Code Section
 
-/*** Code Section***/
+***/
+
+int yywrap(){return(1);}
+
 int main() {
+    cout << "Testing C++ stuff" << endl;
     yylex();
     return 0;
 }
 
+/*
+    printf("Testing");
+    cout << "Testing C++ stuff" << endl;
+    return 0;
+
+}
+*/
 
