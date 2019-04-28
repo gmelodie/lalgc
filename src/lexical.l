@@ -13,8 +13,6 @@ void recognize_reserved_words(char *);
 
 COLON ":"
 SC ";"
-OB "{"
-CB "}"
 OP "("
 CP ")"
 DOT "."
@@ -33,6 +31,10 @@ ERR_REAL_NUMBER2 [+-]?"."[0-9][^ \n\t]*
 
 ID [a-zA-Z][a-zA-Z0-9]*
 
+
+COMMENT "{".*"}"
+ERR_COMMENT "{".*
+
 SPACES [ \n\t]+
 
 ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
@@ -40,6 +42,9 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 /*** Rule Section ***/
 
 %%
+
+{COMMENT} {}
+{ERR_COMMENT} {printf("%s - ERRO COMENTÁRIO MAL FORMADO\n", yytext);}
 
 
 {ERR_REAL_NUMBER1} {printf("%s - ERRO NUMERO REAL MAL FORMADO\n", yytext);}
@@ -52,8 +57,6 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
 {COLON} { printf("%s - SYMB_COLON\n", yytext);}
 {SC} { printf("%s - SYMB_SEMI_COLON\n", yytext);}
-{OB} { printf("%s - SYMB_OPEN_BRACKETS\n", yytext);}
-{CB} { printf("%s - SYMB_CLOSE_BRACKETS\n", yytext);}
 {OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext);}
 {CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext);}
 {DOT} { printf("%s - SYMB_DOT\n", yytext);}
