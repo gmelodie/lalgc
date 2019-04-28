@@ -1,3 +1,4 @@
-src/*.txt
-src/lex.yy.c
-src/lexical
+build/
+tags
+*.in
+*.out
