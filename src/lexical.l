@@ -6,14 +6,8 @@
 using namespace std;
 %}
 
-PROGRAM program
-PROCEDURE procedure
-VAR var
-BEGIN begin
-END end
-CONST const
-COLON :
-SC ;
+COLON ":"
+SC ";"
 OB "{"
 CB "}"
 OP "("
@@ -25,20 +19,19 @@ MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
 ATRIBUTION :=
 
-INT [0-9]+
-FLOAT [0-9]+"."[0-9]+
-	
-FUNC (read|write)
-LOOP (while|do|for)
-COND (if|else|then)
+NUMBER [+-]?[0-9]+[["."]?[0-9]+]?
 
-CMD (FUNC|LOOP|COND)
+ERR_INT_NUMBER [+-]?[0-9]+[^0-9\.]*
 
-IDENT [a-zA-Z][a-zA-Z0-9]*
+ERR_FLOAT_NUMBER [+-]?[0-9]+[^0-9\.]*
 
+ID [a-zA-Z]
 
-SPACES [ \n]+ 
+SPACES [ \n\t]+
 
+ERR_SYMBOL [\^\'\"\!\@\#\$\%\&\~]
+
+UNRECOG_SYMBOL .+
 
 
 
@@ -48,12 +41,6 @@ SPACES [ \n]+
 
 %%
 
-{PROGRAM} { printf("%s - program\n", yytext);}
-{PROCEDURE} { printf("%s - procedure\n", yytext);}
-{VAR} { printf("%s - var\n", yytext);}
-{BEGIN} { printf("%s - begin\n", yytext);}
-{END} { printf("%s - end\n", yytext);}
-{CONST} { printf("%s - const\n", yytext);}
 
 {COLON} { printf("%s - symb_colon\n", yytext);}
 {SC} { printf("%s - symb_semi_colon\n", yytext);}
@@ -68,24 +55,19 @@ SPACES [ \n]+
 {MATH_SUM} { printf("%s - symb_plus\n", yytext);}
 {MATH_MUL} { printf("%s - symb_mult\n", yytext);}
 {RELATION_S} { printf("%s - symb_comp\n", yytext);}
+{ATRIBUTION} { printf("%s - symb_attribution\n", yytext);}
 
-{INT} { printf("%s - integer\n", yytext);}
-{FLOAT} { printf("%s - real\n", yytext);}
+{NUMBER} { printf("%s - number\n", yytext);}
 
-{FUNC} { printf("%s - reserved_function\n", yytext);}
-{LOOP} { printf("%s - reserved_loop\n", yytext);}
-{COND} { printf("%s - reserved_conditional\n", yytext);}
-{CMD} { printf("%s - cmd\n", yytext);}
+{ID} { printf("%s - id\n", yytext);}
 
-{IDENT} { printf("%s - id\n", yytext);}
+{ERR_SYMBOL} {printf("%s - erro símbolo não pertencente à linguagem\n", yytext);}
 
-{ATRIBUTION} { printf("%s - simb_attribution\n", yytext);}
+{UNRECOG_SYMBOL} {printf("%s - erro símbolo não reconhecido\n", yytext);}
 
 {SPACES} {}
 
 %%
-
-
 
 
 
