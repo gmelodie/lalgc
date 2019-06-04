@@ -4,10 +4,12 @@
 #include <FlexLexer.h>
 #include <cstring>
 #include <map>
+#include "y.tab.h"
 
 using namespace std;
 
 void recognize_reserved_words(char *);
+void correct_print(char *, char *);
 
 %}
 
@@ -55,13 +57,13 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
 {ID} {recognize_reserved_words(yytext);}
 
-{COLON} { printf("%s - SYMB_COLON\n", yytext);}
+{COLON} { printf("%s - SYMB_COLON\n", yytext); return STRING;}
 {SC} { printf("%s - SYMB_SEMI_COLON\n", yytext);}
 {OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext);}
 {CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext);}
 {DOT} { printf("%s - SYMB_DOT\n", yytext);}
 {COMMA} { printf("%s - SYMB_COMMA\n", yytext);}
-{MATH_SUM} { printf("%s - SYMB_PLUS\n", yytext);}
+{MATH_SUM} { correct_print(yytext, "SYMB_PLUS");} /* printf("%s - SYMB_PLUS\n", yytext);} */
 {MATH_MUL} { printf("%s - SYMB_MULT\n", yytext);}
 {RELATION_S} { printf("%s - SYMB_COMP\n", yytext);}
 {ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext);}
@@ -105,9 +107,18 @@ void recognize_reserved_words(char *id) {
 }
 
 
+void correct_print(char *id, char *name) {
+    printf("%s - %s\n", yytext, name);
+}
+
+
+/*
 int main() {
     initialize_words_table();
     yylex();
     return 0;
 }
+*/
+
+
 
