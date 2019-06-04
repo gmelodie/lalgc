@@ -15,11 +15,11 @@ void yyerror(char const *s);
 %%
 
 programa: /* empty */
-    | program ';' program
+    | program '+' program
     ;
 
 program: 
-       NUM
+    NUM
     ;
 
 /*
@@ -82,10 +82,9 @@ expr: expr '+' expr
 int main() {
     printf("digite expr : \n");
     yyparse();
-    printf("expr válida \n");
 }
 
-void yywrap(){}
+int yywrap(){return 1;}
 
 void yyerror (char const *s) {
     fprintf (stderr, "%s\n", s);

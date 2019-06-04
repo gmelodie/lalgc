@@ -54,10 +54,12 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {ERR_INT_NUMBER} {printf("%s - ERRO NUMERO INTEIRO MAL FORMADO\n", yytext);}
 {INTEGER_NUMBER} { if(yyleng > 100)
 			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n"); 
-		 else return NUM;}
+		 else 
+			return NUM;}
 {REAL_NUMBER} { if(yyleng > 200)
 		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n"); 
-		else return NUM;}
+		else 
+		    return NUM;}
 
 {ID} {recognize_reserved_words(yytext);}
 
