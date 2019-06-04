@@ -72,12 +72,7 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
 %%
 
-
-
-/** Code Section **/
-map <string, bool> reserved_words_table;
-
-void initialize_words_table() {
+/** Code Section **/ map <string, bool> reserved_words_table; void initialize_words_table() {
     reserved_words_table.insert(pair <string, bool> ("while", true));
     reserved_words_table.insert(pair <string, bool> ("begin", true));
     reserved_words_table.insert(pair <string, bool> ("end", true));
@@ -97,6 +92,7 @@ void initialize_words_table() {
 
 int yywrap(){return(1);}
 
+
 void recognize_reserved_words(char *id) {
     if(strlen(id) > 100) {
         printf("ERRO TAMANHO DO ID EXCEDIDO\n", id);
@@ -107,6 +103,7 @@ void recognize_reserved_words(char *id) {
     else
         printf("%s - PALAVRA RESERVADA\n", id);
 }
+
 
 int main() {
     initialize_words_table();
