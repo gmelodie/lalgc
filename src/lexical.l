@@ -52,13 +52,17 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {ERR_REAL_NUMBER1} {printf("%s - ERRO NUMERO REAL MAL FORMADO\n", yytext);}
 {ERR_REAL_NUMBER2} {printf("%s - ERRO NUMERO REAL MAL FORMADO\n", yytext);}
 {ERR_INT_NUMBER} {printf("%s - ERRO NUMERO INTEIRO MAL FORMADO\n", yytext);}
-{INTEGER_NUMBER} { if(yyleng > 100)printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n"); else printf("%s - INTEGER NUMBER\n", yytext);}
-{REAL_NUMBER} { if(yyleng > 200)printf("ERRO TAMANHO DO REAL EXCEDIDO\n"); else printf("%s - REAL NUMBER\n", yytext);}
+{INTEGER_NUMBER} { if(yyleng > 100)
+			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n"); 
+		 else return NUM;}
+{REAL_NUMBER} { if(yyleng > 200)
+		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n"); 
+		else return NUM;}
 
 {ID} {recognize_reserved_words(yytext);}
 
-{COLON} { printf("%s - SYMB_COLON\n", yytext); return STRING;}
-{SC} { printf("%s - SYMB_SEMI_COLON\n", yytext);}
+{COLON} {}
+{SC} {}
 {OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext);}
 {CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext);}
 {DOT} { printf("%s - SYMB_DOT\n", yytext);}
@@ -70,7 +74,6 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
 {ERR_SYMBOL} {printf("%s - ERRO TOKEN INVÁLIDO\n", yytext);}
 
-{SPACES} {}
 
 %%
 
