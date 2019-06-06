@@ -69,7 +69,7 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext);}
 {DOT} { printf("%s - SYMB_DOT\n", yytext);}
 {COMMA} { printf("%s - SYMB_COMMA\n", yytext);}
-{MATH_SUM} { correct_print(yytext, "SYMB_PLUS");} /* printf("%s - SYMB_PLUS\n", yytext);} */
+{MATH_SUM} { correct_print(yytext, "SYMB_PLUS"); return SUM; } /* printf("%s - SYMB_PLUS\n", yytext);} */
 {MATH_MUL} { printf("%s - SYMB_MULT\n", yytext);}
 {RELATION_S} { printf("%s - SYMB_COMP\n", yytext);}
 {ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext);}

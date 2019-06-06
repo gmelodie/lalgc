@@ -9,10 +9,10 @@ clean:
 	rm -f ./build/lexical
 	rm -f ./build/lex.yy.c
 	rm -f build/syntatic.tab.c
-	rm -f build/y.tab.h 
+	rm -f build/y.tab.h
 
 run:
-	./build/meuprograma 
+	./build/meuprograma
 
 test:
 	./build/meuprogama < input.in | tee saida.out
