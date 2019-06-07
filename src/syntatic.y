@@ -26,6 +26,7 @@ dc:
 %%
 
 int main() {
+    initialize_words_table();
     printf("digite expr : \n");
     yyparse();
 }

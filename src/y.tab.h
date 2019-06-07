@@ -52,12 +52,32 @@ extern int yydebug;
     ID = 258,
     NUM = 259,
     SUM = 260,
+
+    WHILE = 1000,
+    BEGIN,
+    END,
+    REAL,
+    INTEGER,
+    PROGRAM,
+    CONST,
+    VAR,
+    PROCEDURE,
+    READ,
+    WRITE,
+    IF,
+    THEN,
+    ELSE,
+    DO
   };
 #endif
+
+/* TODO: why do we need the defines AND the enum? */
 /* Tokens.  */
 #define ID 258
 #define NUM 259
 #define SUM 260
+
+
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
