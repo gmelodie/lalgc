@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void recognize_reserved_words(char *);
+int recognize_reserved_words(char *);
 void correct_print(char *, char *);
 
 %}
@@ -85,7 +85,7 @@ map <string, int> reserved_words_table;
 
 void initialize_words_table() {
     reserved_words_table["while"] = WHILE;
-    reserved_words_table["begin"] = BEGIN;
+    reserved_words_table["begin"] = BEG;
     reserved_words_table["end"] = END;
     reserved_words_table["real"] = REAL;
     reserved_words_table["integer"] = INTEGER;
@@ -104,10 +104,11 @@ void initialize_words_table() {
 int yywrap(){return(1);}
 
 
-void recognize_reserved_words(char *id) {
+int recognize_reserved_words(char *id) {
     if(strlen(id) > 100) {
         printf("ERRO TAMANHO DO ID EXCEDIDO\n", id);
-        return;
+        // TODO: change return value to ERROR
+        return 0;
     }
     if(reserved_words_table.count(id) == 0) { // didn't find id on reserved words
         printf("%s - ID\n", id);

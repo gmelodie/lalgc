@@ -54,7 +54,7 @@ extern int yydebug;
     SUM = 260,
 
     WHILE = 1000,
-    BEGIN,
+    BEG,
     END,
     REAL,
     INTEGER,
@@ -90,5 +90,8 @@ typedef int YYSTYPE;
 extern YYSTYPE yylval;
 
 int yyparse (void);
+void initialize_words_table();
+int recognize_reserved_words(char *);
+
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */
