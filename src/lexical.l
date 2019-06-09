@@ -112,7 +112,7 @@ int recognize_reserved_words(char *id) {
     }
     if(reserved_words_table.count(id) == 0) { // didn't find id on reserved words
         printf("%s - ID\n", id);
-        return ID;
+        return VAR;
     }
     else {
         printf("%s - PALAVRA RESERVADA\n", id);
