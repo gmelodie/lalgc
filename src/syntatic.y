@@ -55,6 +55,12 @@ dc_v:
     ;
 
 
+dc_p:
+    PROCEDURE ID parametros SC corpo_p dc_p
+	| %empty
+    ;
+
+
 tipo_var:
     REAL
     | INTEGER
@@ -70,11 +76,6 @@ mais_var:
 	| %empty
     ;
 
-
-dc_p:
-    PROCEDURE ID parametros SC corpo_p dc_p
-	| %empty
-    ;
 
 
 parametros:

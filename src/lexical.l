@@ -64,7 +64,7 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {ID} {return recognize_reserved_words(yytext);}
 
 {COLON} {return COLON;}
-{SC} {return SC;}
+{SC} { printf("%s - SEMI COLON\n", yytext); return SC;}
 {OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext); return OPEN_PAR;}
 {CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext); return CLOSE_PAR;}
 {DOT} { printf("%s - SYMB_DOT\n", yytext); return DOT;}
@@ -75,6 +75,8 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext); return ATTR;}
 
 {ERR_SYMBOL} {printf("%s - ERRO TOKEN INVÁLIDO\n", yytext);}
+
+{SPACES} {}
 
 
 %%
@@ -112,7 +114,7 @@ int recognize_reserved_words(char *id) {
     }
     if(reserved_words_table.count(id) == 0) { // didn't find id on reserved words
         printf("%s - ID\n", id);
-        return VAR;
+        return ID;
     }
     else {
         printf("%s - PALAVRA RESERVADA\n", id);
