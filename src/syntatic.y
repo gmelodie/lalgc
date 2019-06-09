@@ -4,17 +4,20 @@
 
 int yylex();
 void yyerror(char const *s);
+void initialize_words_table();
+
 // TODO: como representar o lambda?
 %}
 
 
-%token PROCEDURE PROGRAM DOT
+%token PROCEDURE PROGRAM DOT CONST
 %token READ WRITE
 %token ID
 %token VAR
 %token ATTR 
 %token DIV MINUS PLUS TIMES
-%token EQ NEQ GEQ LEQ GREATER LESS
+%token RELATION_S
+/*%token EQ NEQ GEQ LEQ GREATER LESS */
 %token EQUAL
 %token INTEGER INT REAL
 %token BEG END
@@ -41,7 +44,7 @@ dc:
 
 
 dc_c:
-    ID EQUAL numero SC dc_c
+    CONST ID EQUAL numero SC dc_c
 	| %empty
     ;
 
@@ -147,6 +150,10 @@ condicao:
 
 
 relacao:
+	RELATION_S
+	;
+
+/*
 	EQ
 	| NEQ
 	| GEQ
@@ -154,6 +161,7 @@ relacao:
 	| GREATER
 	| LESS
 	;
+*/
 
 
 expressao:
@@ -215,7 +223,7 @@ numero:
 
 int main() {
     initialize_words_table();
-    printf("digite expr : \n");
+    printf("Type program: \n");
     yyparse();
 }
 

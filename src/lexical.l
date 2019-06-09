@@ -55,24 +55,24 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {INTEGER_NUMBER} { if(yyleng > 100)
 			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n");
 		 else
-			return NUM;}
+			return INT;}
 {REAL_NUMBER} { if(yyleng > 200)
 		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n");
 		else
-		    return NUM;}
+		    return REAL;}
 
 {ID} {return recognize_reserved_words(yytext);}
 
-{COLON} {}
-{SC} {}
-{OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext);}
-{CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext);}
-{DOT} { printf("%s - SYMB_DOT\n", yytext);}
-{COMMA} { printf("%s - SYMB_COMMA\n", yytext);}
-{MATH_SUM} { correct_print(yytext, "SYMB_PLUS"); return SUM; }
-{MATH_MUL} { printf("%s - SYMB_MULT\n", yytext);}
-{RELATION_S} { printf("%s - SYMB_COMP\n", yytext);}
-{ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext);}
+{COLON} {return COLON;}
+{SC} {return SC;}
+{OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext); return OPEN_PAR;}
+{CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext); return CLOSE_PAR;}
+{DOT} { printf("%s - SYMB_DOT\n", yytext); return DOT;}
+{COMMA} { printf("%s - SYMB_COMMA\n", yytext); return COMMA;}
+{MATH_SUM} { correct_print(yytext, "SYMB_PLUS"); return PLUS; }
+{MATH_MUL} { printf("%s - SYMB_MULT\n", yytext); return TIMES;}
+{RELATION_S} { printf("%s - SYMB_COMP\n", yytext); return RELATION_S;}
+{ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext); return ATTR;}
 
 {ERR_SYMBOL} {printf("%s - ERRO TOKEN INVÁLIDO\n", yytext);}
 
@@ -106,7 +106,7 @@ int yywrap(){return(1);}
 
 int recognize_reserved_words(char *id) {
     if(strlen(id) > 100) {
-        printf("ERRO TAMANHO DO ID EXCEDIDO\n", id);
+        printf("ERRO TAMANHO DO ID EXCEDIDO\n");
         // TODO: change return value to ERROR
         return 0;
     }
