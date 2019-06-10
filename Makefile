@@ -1,7 +1,7 @@
 all:
 	if [ ! -d "./build" ]; then mkdir ./build; fi
 	flex -o build/lex.yy.c src/lexical.l
-	yacc -d src/syntatic.y --defines=build/y.tab.h -o build/y.tab.c
+	yacc -d src/syntatic.y --defines=build/y.tab.h -o build/y.tab.c -Wno-yacc
 	g++ build/lex.yy.c build/y.tab.c -o build/meuprograma
 
 debug_lexical:
