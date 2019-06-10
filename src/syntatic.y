@@ -251,30 +251,31 @@ numero:
 
 FILE* print_menu() {
     /* Prints a user friendly menu.
-    Asks the user for a input number corresponding to which test case to use, 
+    Asks the user for a input number corresponding to which test case to use,
 	and maps the corresponding file in TEST_DIR
 
     We return a a file pointer to the test case file or NULL if we need to exit.
     */
     char option;
-    
-    printf("Welcome to a sample LALG syntatix and lexical compiler!\n\n");
+
+    printf("Welcome to LALGC, LALG syntatix and lexical analyser!\n\n");
     printf("This program comes with %d test cases. Type:\n", TEST_CASES);
 
-    for (int i=1; i<=TEST_CASES; i++) {
-	printf("\t%d - Run test case %d\n", i, i);
+    for (int i = 1; i <= TEST_CASES; i++) {
+        printf("\t%d - Run test case %d\n", i, i);
     }
+
     printf("\tE - Exit program\n\n");
-    printf("Choice: ");
-    cin >> option;
 
     while (1) {
-	switch (option) {
-	    case '1': return fopen("input1.in", "r");
-	    case '2': return fopen("input2.in", "r");
-	    case 'E': return NULL;
-	    default: printf("INVALID OPTION! TRY AGAIN\n");
-	}
+        printf("Choice: ");
+        cin >> option;
+        switch (option) {
+            case '1': return fopen("input1.in", "r");
+            case '2': return fopen("input2.in", "r");
+            case 'E': return NULL;
+            default: printf("INVALID OPTION! TRY AGAIN\n");
+        }
     }
 }
 
@@ -283,15 +284,15 @@ int main() {
     initialize_words_table();
 
     while (1) {
-	FILE *input = print_menu();
-	if (input == NULL)
-	    break;
+        FILE *input = print_menu();
+        if (input == NULL)
+            break;
 
-	// Change the input for lex and run test case
-	printf("\n\n");
-	yyin = input;
-	yyparse();
-	printf("\n\nFinished test case. Back to menu\n");
+        // Change the input for lex and run test case
+        printf("\n\n");
+        yyin = input;
+        yyparse();
+        printf("\n\nFinished test case. Back to menu\n");
     }
 
     printf("Exiting Program\n");
