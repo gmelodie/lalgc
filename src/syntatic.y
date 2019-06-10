@@ -124,6 +124,8 @@ mais_ident:
 
 pfalsa:
 	ELSE cmd
+	| error cmd
+		{printf("\t\tSyntax error: on ELSE\n");}
 	| %empty
 	;
 
@@ -136,12 +138,22 @@ comandos:
 
 cmd:
 	READ OPEN_PAR variaveis CLOSE_PAR
+	| READ error CLOSE_PAR
+		{printf("\t\tSyntax error on READ\n");}
 	| WRITE OPEN_PAR variaveis CLOSE_PAR
+	| WRITE error CLOSE_PAR
+		{printf("\t\tSyntax error on WRITE\n");}
 	| WHILE OPEN_PAR condicao CLOSE_PAR DO cmd
+	| WHILE error DO
+		{printf("\t\tSyntax error on WHILE\n");}
 	| IF condicao THEN cmd pfalsa
+	| IF error THEN
+		{printf("\t\tSyntax error on IF\n");}
 	| ID ATTR expressao
 	| ID lista_arg
 	| BEG comandos END
+	| BEG error END
+		{printf("\t\tSyntax error: missing END\n");}
 	;
 
 
