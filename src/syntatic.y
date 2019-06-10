@@ -32,6 +32,8 @@ void initialize_words_table();
 
 programa:
     PROGRAM ID SC corpo DOT
+    | PROGRAM error DOT
+	{printf("\t\tSyntax error on PROGRAM\n");}
     ;
 
 corpo:
@@ -45,19 +47,19 @@ dc:
 
 dc_c:
     CONST ID EQUAL numero SC dc_c
-	| %empty
+    | %empty
     ;
 
 
 dc_v:
     VAR variaveis COLON tipo_var SC dc_v
-	| %empty
+    | %empty
     ;
 
 
 dc_p:
     PROCEDURE ID parametros SC corpo_p dc_p
-	| %empty
+    | %empty
     ;
 
 
@@ -73,14 +75,16 @@ variaveis:
 
 mais_var:
     COMMA variaveis
-	| %empty
+    | %empty
     ;
 
 
 
 parametros:
     OPEN_PAR lista_par CLOSE_PAR
-	| %empty
+    | OPEN_PAR error CLOSE_PAR
+	{printf("\t\tSyntax error on PROGRAM\n");}
+    | %empty
     ;
 
 
@@ -107,6 +111,8 @@ dc_loc:
 
 lista_arg:
 	OPEN_PAR argumentos CLOSE_PAR
+	| OPEN_PAR error CLOSE_PAR
+		{printf("\t\tSyntax error on lista_arg\n");}
 	| %empty
 	;
 
@@ -222,6 +228,8 @@ fator:
 	ID
 	| numero
 	| OPEN_PAR expressao CLOSE_PAR
+	| OPEN_PAR error CLOSE_PAR
+		{printf("\t\tSyntax error on fator\n");}
 	;
 
 
