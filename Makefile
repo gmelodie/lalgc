@@ -15,8 +15,8 @@ clean:
 	rm -rf build/ ;
 
 run:
-	if [ -d "./build" ]; then ./build/meuprograma; fi
 	if [ ! -d "./build" ]; then echo "Run failed, build first"; fi
+	if [ -d "./build" ]; then ./build/meuprograma; fi
 
 
 test:
