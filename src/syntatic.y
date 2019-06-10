@@ -1,13 +1,19 @@
 %{
 #include<stdio.h>
-//#include "y.tab.h"
+#include<stdlib.h>
+#include <iostream>
 
 int yylex();
 void yyerror(char const *s);
 void initialize_words_table();
 
-// TODO: como representar o lambda?
-%}
+int TEST_CASES = 2;
+
+extern FILE * yyin;  // To use other files as input to lex
+
+using namespace std;
+
+%} 
 
 
 %token PROCEDURE PROGRAM DOT CONST
@@ -17,7 +23,7 @@ void initialize_words_table();
 %token ATTR 
 %token DIV MINUS PLUS TIMES
 %token RELATION_S
-/*%token EQ NEQ GEQ LEQ GREATER LESS */
+/*TODO %token EQ NEQ GEQ LEQ GREATER LESS */
 %token EQUAL
 %token INTEGER INT REAL
 %token BEG END
@@ -31,61 +37,63 @@ void initialize_words_table();
 %%
 
 programa:
-    PROGRAM ID SC corpo DOT
-    | PROGRAM error DOT
-	{printf("\t\tSyntax error on PROGRAM\n");}
-    ;
+	PROGRAM ID SC corpo DOT
+	| PROGRAM error DOT
+	    {printf("\t\tSyntax error on PROGRAM\n");}
+	;
+
 
 corpo:
-    dc BEG comandos END
-    ;
+	dc BEG comandos END
+	;
+
 
 dc:
-    dc_c dc_v dc_p
-    ;
+	dc_c dc_v dc_p
+	;
 
 
 dc_c:
-    CONST ID EQUAL numero SC dc_c
-    | %empty
-    ;
+	CONST ID EQUAL numero SC dc_c
+	| %empty
+	;
 
 
 dc_v:
-    VAR variaveis COLON tipo_var SC dc_v
-    | %empty
-    ;
+	VAR variaveis COLON tipo_var SC dc_v
+	| %empty
+	;
 
 
 dc_p:
-    PROCEDURE ID parametros SC corpo_p dc_p
-    | %empty
-    ;
+	PROCEDURE ID parametros SC corpo_p dc_p
+	| %empty
+	;
 
 
 tipo_var:
-    REAL
-    | INTEGER
-    ;
+	REAL
+	| INTEGER
+	;
+
 
 variaveis:
-    ID mais_var
-    ;
+	ID mais_var
+	;
 
 
 mais_var:
-    COMMA variaveis
-    | %empty
-    ;
-
+	COMMA variaveis
+	| %empty
+	;
 
 
 parametros:
-    OPEN_PAR lista_par CLOSE_PAR
-    | OPEN_PAR error CLOSE_PAR
-	{printf("\t\tSyntax error on PROGRAM\n");}
-    | %empty
-    ;
+	OPEN_PAR lista_par CLOSE_PAR
+	| OPEN_PAR error CLOSE_PAR
+	    {printf("\t\tSyntax error on PROGRAM\n");}
+	| %empty
+	;
 
 
 lista_par:
@@ -171,8 +179,7 @@ condicao:
 relacao:
 	RELATION_S
 	;
-
-/*
+/* TODO
 	EQ
 	| NEQ
 	| GEQ
@@ -242,10 +249,53 @@ numero:
 
 %%
 
+FILE* print_menu() {
+    /* Prints a user friendly menu.
+    Asks the user for a input number corresponding to which test case to use, 
+	and maps the corresponding file in TEST_DIR
+
+    We return a a file pointer to the test case file or NULL if we need to exit.
+    */
+    char option;
+    
+    printf("Welcome to a sample LALG syntatix and lexical compiler!\n\n");
+    printf("This program comes with %d test cases. Type:\n", TEST_CASES);
+
+    for (int i=1; i<=TEST_CASES; i++) {
+	printf("\t%d - Run test case %d\n", i, i);
+    }
+    printf("\tE - Exit program\n\n");
+    printf("Choice: ");
+    cin >> option;
+
+    while (1) {
+	switch (option) {
+	    case '1': return fopen("input1.in", "r");
+	    case '2': return fopen("input2.in", "r");
+	    case 'E': return NULL;
+	    default: printf("INVALID OPTION! TRY AGAIN\n");
+	}
+    }
+}
+
+
 int main() {
     initialize_words_table();
-    printf("Type program: \n");
-    yyparse();
+
+    while (1) {
+	FILE *input = print_menu();
+	if (input == NULL)
+	    break;
+
+	// Change the input for lex and run test case
+	printf("\n\n");
+	yyin = input;
+	yyparse();
+	printf("\n\nFinished test case. Back to menu\n");
+    }
+
+    printf("Exiting Program\n");
+    return 0;
 }
 
 
