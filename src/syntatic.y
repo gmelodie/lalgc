@@ -258,11 +258,13 @@ FILE* print_menu() {
     */
     char option;
 
+    printf("\n\n=========================================================\n");
     printf("Welcome to LALGC, LALG syntatix and lexical analyser!\n\n");
     printf("This program comes with %d test cases. Type:\n", TEST_CASES);
+    printf("=========================================================\n\n");
 
     for (int i = 1; i <= TEST_CASES; i++) {
-        printf("\t%d - Run test case %d\n", i, i);
+        printf("\t%d - Run test case 'input%d.in'\n", i, i);
     }
 
     printf("\tE - Exit program\n\n");
@@ -274,7 +276,7 @@ FILE* print_menu() {
             case '1': return fopen("input1.in", "r");
             case '2': return fopen("input2.in", "r");
             case 'E': return NULL;
-            default: printf("INVALID OPTION! TRY AGAIN\n");
+            default: printf("Invalid option, try again\n");
         }
     }
 }
