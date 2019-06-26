@@ -19,10 +19,16 @@ OP "("
 CP ")"
 DOT "."
 COMMA ","
+
+FOR_EQUAL ":="
+TO "to"
+
+
 MATH_SUM (\+|\-)
 MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
 ATRIBUTION :=
+
 
 INTEGER_NUMBER [+-]?[0-9]+
 ERR_INT_NUMBER [+-]?[0-9]+[a-zA-Z][^ \n\t]*
@@ -101,6 +107,7 @@ void initialize_words_table() {
     reserved_words_table["then"] = THEN;
     reserved_words_table["else"] = ELSE;
     reserved_words_table["do"] = DO;
+    reserved_words_table["for"] = FOR;
 }
 
 int yywrap(){return(1);}

@@ -14,8 +14,6 @@ extern FILE * yyin;  // To use other files as input to lex
 using namespace std;
 
 %} 
-
-
 %token PROCEDURE PROGRAM DOT CONST
 %token READ WRITE
 %token ID
@@ -27,7 +25,7 @@ using namespace std;
 %token EQUAL
 %token INTEGER INT REAL
 %token BEG END
-%token FOR WHILE 
+%token FOR FOR_EQUAL TO WHILE 
 %token CLOSE_PAR OPEN_PAR 
 %token COLON COMMA SC DO 
 %token IF ELSE THEN
@@ -168,6 +166,7 @@ cmd:
 	| BEG comandos END
 	| BEG error END
 		{printf("\t\tSyntax error: missing END\n");}
+	| FOR ID FOR_EQUAL INT TO INT DO cmd
 	;
 
 
