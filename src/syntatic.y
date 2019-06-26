@@ -279,7 +279,8 @@ FILE* print_menu() {
     printf("\tE - Exit program\n\n");
 
     // Read's the user input until a valid option is choosen
-    while (1) {
+    option = 'A'
+    while (option != 'E') {
         printf("Choice: ");
         cin >> option;
         switch (option) {
