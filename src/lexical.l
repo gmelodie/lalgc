@@ -58,24 +58,24 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {INTEGER_NUMBER} { if(yyleng > 100)
 			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n");
 		 else 
-			printf("%s - INT NUM\n", yytext); return INT_NUM; }
+			return INT_NUM; }
 {REAL_NUMBER} { if(yyleng > 200)
 		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n");
 		else
-		    printf("%s - REAL NUM\n", yytext); return REAL_NUM;}
+		    return REAL_NUM;}
 
 {ID} {return recognize_reserved_words(yytext);}
 
 {COLON} {return COLON;}
-{SC} { printf("%s - SEMI COLON\n", yytext); return SC;}
-{OP} { printf("%s - SYMB_OPEN_PAREN\n", yytext); return OPEN_PAR;}
-{CP} { printf("%s - SYMB_CLOSE_PAREN\n", yytext); return CLOSE_PAR;}
-{DOT} { printf("%s - SYMB_DOT\n", yytext); return DOT;}
-{COMMA} { printf("%s - SYMB_COMMA\n", yytext); return COMMA;}
-{MATH_SUM} { correct_print(yytext, "SYMB_PLUS"); return PLUS; }
-{MATH_MUL} { printf("%s - SYMB_MULT\n", yytext); return TIMES;}
-{RELATION_S} { printf("%s - SYMB_COMP\n", yytext); return RELATION_S;}
-{ATRIBUTION} { printf("%s - SYMB_ATTRIBUTION\n", yytext); return ATTR;}
+{SC} { return SC;}
+{OP} { return OPEN_PAR;}
+{CP} { return CLOSE_PAR;}
+{DOT} { return DOT;}
+{COMMA} { return COMMA;}
+{MATH_SUM} { return PLUS; }
+{MATH_MUL} { return TIMES;}
+{RELATION_S} { return RELATION_S;}
+{ATRIBUTION} { return ATTR;}
 
 {ERR_SYMBOL} {printf("%s - ERRO TOKEN INVÁLIDO\n", yytext);}
 
@@ -132,12 +132,10 @@ int recognize_reserved_words(char *id) {
 
     if(reserved_words_table.count(id) == 0) { 
 	// Didn't find the ID as a reserved word
-        printf("%s - ID\n", id);
         return ID;
     }
     else {
 	// Everything is ok with the ID
-        printf("%s - PALAVRA RESERVADA\n", id);
         return reserved_words_table[id];
     }
 }
