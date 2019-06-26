@@ -27,12 +27,13 @@ MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
 ATRIBUTION :=
 
-INTEGER_NUMBER [+-]?[0-9]+
-ERR_INT_NUMBER [+-]?[0-9]+[a-zA-Z][^ \n\t]*
+/* INTEGER_NUMBER [+-]?[0-9]+ */
+INTEGER_NUMBER [0-9]+
+ERR_INT_NUMBER [0-9]+[a-zA-Z][^ \n\t]*
 
-REAL_NUMBER [+-]?[0-9]+"."[0-9]+
-ERR_REAL_NUMBER1 [+-]?[0-9]+"."[0-9]*[a-zA-Z][^ \n\t]*
-ERR_REAL_NUMBER2 [+-]?"."[0-9][^ \n\t]*
+REAL_NUMBER [0-9]+"."[0-9]+
+ERR_REAL_NUMBER1 [0-9]+"."[0-9]*[a-zA-Z][^ \n\t]*
+ERR_REAL_NUMBER2 "."[0-9][^ \n\t]*
 
 ID [a-zA-Z][a-zA-Z0-9]*
 
@@ -57,12 +58,12 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {ERR_INT_NUMBER} {printf("%s - ERRO NUMERO INTEIRO MAL FORMADO\n", yytext);}
 {INTEGER_NUMBER} { if(yyleng > 100)
 			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n");
-		 else
-			return INT_NUM;}
+		 else 
+			printf("%s - INT NUM\n", yytext); return INT_NUM; }
 {REAL_NUMBER} { if(yyleng > 200)
 		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n");
 		else
-		    return REAL_NUM;}
+		    printf("%s - REAL NUM\n", yytext); return REAL_NUM;}
 
 {ID} {return recognize_reserved_words(yytext);}
 
@@ -106,6 +107,7 @@ void initialize_words_table() {
     reserved_words_table["else"] = ELSE;
     reserved_words_table["do"] = DO;
     reserved_words_table["for"] = FOR;
+    reserved_words_table["to"] = TO;
 }
 
 int yywrap(){return(1);}
