@@ -3,17 +3,20 @@
 #include<stdlib.h>
 #include <iostream>
 
+// Functions used from lexical analysis
 int yylex();
 void yyerror(char const *s);
 void initialize_words_table();
 
-int TEST_CASES = 2;
+// The amount of test cases we have
+int TEST_CASES = 4;
 
 extern FILE * yyin;  // To use other files as input to lex
 
 using namespace std;
 
 %} 
+
 %token PROCEDURE PROGRAM DOT CONST
 %token READ WRITE
 %token ID
@@ -141,7 +144,7 @@ mais_ident:
 pfalsa:
 	ELSE cmd
 	| error cmd
-		{printf("\t\tSyntax error: on ELSE\n");}
+		{printf("\t\tSyntax error on ELSE\n");}
 	| %empty
 	;
 
@@ -154,30 +157,33 @@ comandos:
 
 cmd:
 	READ OPEN_PAR variaveis CLOSE_PAR
-	| READ error CLOSE_PAR
+		| READ error CLOSE_PAR
 		{printf("\t\tSyntax error on READ\n");}
+
 	| WRITE OPEN_PAR variaveis CLOSE_PAR
 	| WRITE error CLOSE_PAR
 		{printf("\t\tSyntax error on WRITE\n");}
+
 	| WHILE OPEN_PAR condicao CLOSE_PAR DO cmd
 	| WHILE error DO
 		{printf("\t\tSyntax error on WHILE\n");}
+
 	| IF condicao THEN cmd pfalsa
 	| IF error THEN
 		{printf("\t\tSyntax error on IF\n");}
+
 	| ID ATTR expressao
 	| ID lista_arg
+
 	| BEG comandos END
 	| BEG error END
-		/* {printf("\t\tSyntax error: missing END\n");} */
-		{printf("\t\tHERE\n");}
+		{printf("\t\tSyntax error: missing END\n");}
 
 	| FOR ID ATTR INT_NUM TO INT_NUM DO cmd
-	/*| FOR error TO INT DO cmd
+	| FOR error TO INT_NUM DO cmd
 		{printf("\t\tSyntax error: Invalid FOR var declaration\n");}
 	| FOR error DO cmd
 		{printf("\t\tSyntax error: Invalid FOR structure\n");}
-	*/
 	;
 
 
@@ -247,8 +253,8 @@ numero:
 	;
 
 
-
 %%
+
 
 FILE* print_menu() {
     /* Prints a user friendly menu.
@@ -259,23 +265,28 @@ FILE* print_menu() {
     */
     char option;
 
+    // Pretty print menu
     printf("\n\n=========================================================\n");
     printf("Welcome to LALGC, LALG syntatix and lexical analyser!\n\n");
-    printf("This program comes with %d test cases. Type:\n", TEST_CASES);
+    printf("This program comes with %d test cases.\n", TEST_CASES);
+    printf("The first 2 are cases where the grammar is correct - the other 2 have syntatic errors in them.\n", TEST_CASES);
+    printf("Type:\n", TEST_CASES);
     printf("=========================================================\n\n");
 
     for (int i = 1; i <= TEST_CASES; i++) {
         printf("\t%d - Run test case 'input%d.in'\n", i, i);
     }
-
     printf("\tE - Exit program\n\n");
 
+    // Read's the user input until a valid option is choosen
     while (1) {
         printf("Choice: ");
         cin >> option;
         switch (option) {
             case '1': return fopen("input1.in", "r");
             case '2': return fopen("input2.in", "r");
+            case '3': return fopen("input3.in", "r");
+            case '4': return fopen("input4.in", "r");
             case 'E': return NULL;
             default: printf("Invalid option, try again\n");
         }
@@ -284,6 +295,10 @@ FILE* print_menu() {
 
 
 int main() {
+    /* Main program function
+    Responsible for initializing all the memory stuctures including the
+	hash table for the reserved words, then running a test case.
+    */
     initialize_words_table();
 
     while (1) {
@@ -303,11 +318,13 @@ int main() {
 }
 
 
+// Helper function for lex
 int yywrap(){return 1;}
 
 
-void yyerror (char const *s) {
-    fprintf (stderr, "%s\n", s);
+// Print any errors to stderr as a normal line
+void yyerror(char const *s) {
+    fprintf(stderr, "\t\tERROR: %s\n", s);
 }
 
 

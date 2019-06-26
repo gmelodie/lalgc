@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// Function declarations
 int recognize_reserved_words(char *);
 void correct_print(char *, char *);
 
@@ -27,7 +28,6 @@ MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
 ATRIBUTION :=
 
-/* INTEGER_NUMBER [+-]?[0-9]+ */
 INTEGER_NUMBER [0-9]+
 ERR_INT_NUMBER [0-9]+[a-zA-Z][^ \n\t]*
 
@@ -37,7 +37,6 @@ ERR_REAL_NUMBER2 "."[0-9][^ \n\t]*
 
 ID [a-zA-Z][a-zA-Z0-9]*
 
-
 COMMENT "{".*"}"
 ERR_COMMENT "{".*
 
@@ -45,13 +44,13 @@ SPACES [ \n\t]+
 
 ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
-/* Rule Section */
 
+/* Rule Section */
 %%
+
 
 {COMMENT} {}
 {ERR_COMMENT} {printf("%s - ERRO COMENTÁRIO MAL FORMADO\n", yytext);}
-
 
 {ERR_REAL_NUMBER1} {printf("%s - ERRO NUMERO REAL MAL FORMADO\n", yytext);}
 {ERR_REAL_NUMBER2} {printf("%s - ERRO NUMERO REAL MAL FORMADO\n", yytext);}
@@ -84,12 +83,17 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 
 
 %%
-
 /** Code Section **/
 
+
+// Hash map for reserved key words
 map <string, int> reserved_words_table;
 
+
 void initialize_words_table() {
+    /* Initializes the hash table by adding all the necessary keywords.
+    */
+
     reserved_words_table["while"] = WHILE;
     reserved_words_table["begin"] = BEG;
     reserved_words_table["end"] = END;
@@ -110,20 +114,29 @@ void initialize_words_table() {
     reserved_words_table["to"] = TO;
 }
 
+
+// Helper function for Lex
 int yywrap(){return(1);}
 
 
 int recognize_reserved_words(char *id) {
+    /* Checks if a given ID is valid. For this we check:
+	    - If the length of the ID is valid;
+	    - If the ID is reserved keyword.
+    */
+
     if(strlen(id) > 100) {
         printf("ERRO TAMANHO DO ID EXCEDIDO\n");
-        // TODO: change return value to ERROR
         return 0;
     }
-    if(reserved_words_table.count(id) == 0) { // didn't find id on reserved words
+
+    if(reserved_words_table.count(id) == 0) { 
+	// Didn't find the ID as a reserved word
         printf("%s - ID\n", id);
         return ID;
     }
     else {
+	// Everything is ok with the ID
         printf("%s - PALAVRA RESERVADA\n", id);
         return reserved_words_table[id];
     }
@@ -131,7 +144,7 @@ int recognize_reserved_words(char *id) {
 
 
 void correct_print(char *id, char *name) {
+    /* Helper function to print a ID
+    */
     printf("%s - %s\n", yytext, name);
 }
-
-
