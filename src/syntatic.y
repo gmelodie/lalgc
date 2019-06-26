@@ -21,9 +21,9 @@ using namespace std;
 %token ATTR 
 %token DIV MINUS PLUS TIMES
 %token RELATION_S
-/*TODO %token EQ NEQ GEQ LEQ GREATER LESS */
 %token EQUAL
-%token INTEGER INT REAL
+%token INTEGER REAL
+%token INT_NUM REAL_NUM
 %token BEG END
 %token FOR FOR_EQUAL TO WHILE 
 %token CLOSE_PAR OPEN_PAR 
@@ -32,11 +32,15 @@ using namespace std;
 
 %start programa
 
+
 %%
+
 
 programa:
 	PROGRAM ID SC corpo DOT
-	| PROGRAM error DOT
+	| PROGRAM error SC
+	    {printf("\t\tSyntax error on PROGRAM - Invalid name\n");}
+	| PROGRAM ID SC error DOT
 	    {printf("\t\tSyntax error on PROGRAM\n");}
 	;
 
@@ -165,8 +169,15 @@ cmd:
 	| ID lista_arg
 	| BEG comandos END
 	| BEG error END
-		{printf("\t\tSyntax error: missing END\n");}
-	| FOR ID FOR_EQUAL INT TO INT DO cmd
+		/* {printf("\t\tSyntax error: missing END\n");} */
+		{printf("\t\tHERE\n");}
+
+	| FOR ID ATTR INT_NUM TO INT_NUM DO cmd
+	/*| FOR error TO INT DO cmd
+		{printf("\t\tSyntax error: Invalid FOR var declaration\n");}
+	| FOR error DO cmd
+		{printf("\t\tSyntax error: Invalid FOR structure\n");}
+	*/
 	;
 
 
@@ -178,15 +189,6 @@ condicao:
 relacao:
 	RELATION_S
 	;
-/* TODO
-	EQ
-	| NEQ
-	| GEQ
-	| LEQ
-	| GREATER
-	| LESS
-	;
-*/
 
 
 expressao:
@@ -240,8 +242,8 @@ fator:
 
 
 numero:
-	INT
-	| REAL
+	INT_NUM
+	| REAL_NUM
 	;
 
 

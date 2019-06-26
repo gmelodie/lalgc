@@ -20,15 +20,12 @@ CP ")"
 DOT "."
 COMMA ","
 
-FOR_EQUAL ":="
 TO "to"
-
 
 MATH_SUM (\+|\-)
 MATH_MUL (\*|\/)
 RELATION_S (>|>=|<|<=|==|<>)
 ATRIBUTION :=
-
 
 INTEGER_NUMBER [+-]?[0-9]+
 ERR_INT_NUMBER [+-]?[0-9]+[a-zA-Z][^ \n\t]*
@@ -61,11 +58,11 @@ ERR_SYMBOL .*[\^\'\"\!\@\#\$\%\&\~][^ \n\t]*
 {INTEGER_NUMBER} { if(yyleng > 100)
 			printf("ERRO TAMANHO DO INTEIRO EXCEDIDO\n");
 		 else
-			return INT;}
+			return INT_NUM;}
 {REAL_NUMBER} { if(yyleng > 200)
 		    printf("ERRO TAMANHO DO REAL EXCEDIDO\n");
 		else
-		    return REAL;}
+		    return REAL_NUM;}
 
 {ID} {return recognize_reserved_words(yytext);}
 
@@ -97,6 +94,7 @@ void initialize_words_table() {
     reserved_words_table["end"] = END;
     reserved_words_table["real"] = REAL;
     reserved_words_table["integer"] = INTEGER;
+    reserved_words_table["real"] = REAL;
     reserved_words_table["program"] = PROGRAM;
     reserved_words_table["const"] = CONST;
     reserved_words_table["var"] = VAR;
